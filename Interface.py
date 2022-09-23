@@ -8,13 +8,13 @@ window.geometry("600x400")
 window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
 
 # show today's date on the top abd add a sub-title
-randomdate = dt.date(year=2022, month=9, day=22)
-today = randomdate.today().strftime("%x")
+random_date = dt.date(year=2022, month=9, day=22)
+today = random_date.today().strftime("%x")
 today = today[3:6] + today[0:3] + today[6:8]
-todaymsg = tk.Label(window, text="Today: " + today, font=("arial", 20))
-todaymsg.pack()
-whohasbd = tk.Label(window, text="The teachers who have a birthday today are: ", font=("arial", 12), pady=10)
-whohasbd.pack()
+today_msg = tk.Label(window, text="Today: " + today, font=("arial", 20))
+today_msg.pack()
+who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=("arial", 12), pady=10)
+who_has_bd.pack()
 
 
 general_BDays = {"29/09": ["Ani Ido Kedem"], "26/07": ["Yoav Spiegel"], "23/09": ["nobody", "no one"]}  # until real one
