@@ -12,7 +12,7 @@ window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
 
 def format_date(input_date):
     formatted = input_date.strftime("%d/%m")
-    return formatted[3:6] + formatted[0:2]
+    return formatted
 
 
 # First part: initialisation of basic screen and variables
