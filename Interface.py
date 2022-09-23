@@ -1,4 +1,6 @@
-# import Database as Db
+
+import Database as db
+
 import tkinter as tk
 import datetime as dt
 
@@ -17,13 +19,16 @@ who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=
 who_has_bd.pack()
 
 
-general_BDays = {"29/09": ["Ani Ido Kedem"], "26/07": ["Yoav Spiegel"], "23/09": ["nobody", "no one"]}  # until real one
+
+general_BDays = db.load_database_dict()
+
 
 teachers_label_text = ""
 for date in general_BDays:
     if date == today[0:5]:
         for teacher in general_BDays[date]:
             teachers_label_text += teacher + "\n"
+
 teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 10))
 teachers_label.pack()
 

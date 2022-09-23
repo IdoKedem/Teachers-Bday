@@ -1,5 +1,4 @@
 from openpyxl import Workbook, load_workbook
-from openpyxl.utils import get_column_letter
 from collections import defaultdict
 
 
@@ -15,19 +14,19 @@ def fix_date(date: str) -> str:
     return "/".join(lst)
 
 
-def main():
-
-    wb = load_workbook('Teachers-Bday.xlsx')
-    ws = wb.active
+def load_database_dict():
+    """
+    Reads xlsx file and loads python dict
+    :return: dict in format {date string : [teacher names]}
+    """
 
     dates_names_dict = defaultdict(lambda: [])
+    wb = load_workbook('Teachers-Bday.xlsx')
+    ws = wb.active
 
     for row in range(2, ws.max_row):
         date = fix_date(ws["B" + str(row)].value)
         name = ws["A" + str(row)].value
 
         dates_names_dict[date].append(name)
-
-
-if __name__ == '__main__':
-    main()
+    return dates_names_dict
