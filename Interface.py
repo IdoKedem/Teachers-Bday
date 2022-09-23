@@ -1,4 +1,6 @@
+
 import Database as db
+
 import tkinter as tk
 import datetime as dt
 
@@ -17,7 +19,9 @@ who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=
 who_has_bd.pack()
 
 
+
 general_BDays = db.load_database_dict()
+
 
 teachers_label_text = ""
 for date in general_BDays:
