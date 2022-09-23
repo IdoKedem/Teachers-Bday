@@ -22,14 +22,14 @@ date_label = tk.Label(window, text=format_date(current_date), font=("arial", 20)
 date_label.place(x=255, y=300)
 # tomorrow = current_date + dt.timedelta(days=1)
 today = format_date(current_date)
-who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=("arial", 20), pady=10)
+who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=("arial", 20), pady=10)  # default msg
 who_has_bd.pack()
 
 general_BDays = {"29/09": ["Ani Ido Kedem"], "26/07": ["Yoav Spiegel"], "25/09": ["nobody", "no one"]}  # until real one
 
 teachers_label_text = ""
 
-for date in general_BDays:
+for date in general_BDays:  # show only teachers born today
     if date == today:
         for teacher in general_BDays[date]:
             teachers_label_text += teacher + "\n"
@@ -38,9 +38,14 @@ teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
 teachers_label.pack()
 
 
-# Second part: date buttons functions
+# Second part: date buttons
 
 def update_to_date():
+    '''
+
+    Uses the current date to show the correct messages in every label concerning it
+    Activated by plus_day and minus_day buttons
+    '''
     global current_date
     teachers_label_text = ""
 
@@ -66,16 +71,46 @@ def update_to_date():
     teachers_label.configure(text=teachers_label_text)
 
 
-# mode change button must be here
-def mode_change():
+def minus_day():  # go one day backwards and update
+    global current_date
+    current_date -= dt.timedelta(days=1)
+    update_to_date()
+
+
+def plus_day():  # go one day forward and update
+    global current_date
+    current_date += dt.timedelta(days=1)
+    update_to_date()
+
+
+plus_day = tk.Button(window, text="⮝", width=4, height=2, command=plus_day)
+plus_day.place(x=210, y=300)
+
+minus_day = tk.Button(window, text="⮟", width=4, height=2, command=minus_day)
+minus_day.place(x=335, y=300)
+
+
+def mode_change():  # update state to present by date and retrieve plus/minus day buttons (kill button too)
     update_to_date()
     return_to_date_mode.place_forget()
+    plus_day.place(x=210, y=300)
+    minus_day.place(x=335, y=300)
 
 
 return_to_date_mode = tk.Button(window, text="Return to date mode", command=mode_change)
 
 
+# Third part: month buttons
+
 def update_to_month(month, month_name):
+    '''
+
+    Used by the 12 month buttons
+    Updates the teachers list according to the month parameters
+    Deletes plus/minus buttons and adds mode change button
+    :param month: two digit number to sort dates by
+    :param month_name: the name that shall be presented on the main label
+    '''
     who_has_bd.configure(text="Teachers who have a birthday on " + month_name)
 
     teachers_label_text = ""
@@ -84,29 +119,10 @@ def update_to_month(month, month_name):
             for teacher in general_BDays[date]:
                 teachers_label_text += teacher + "\n"
     teachers_label.configure(text=teachers_label_text)
-    return_to_date_mode.place(x=230, y=350)
+    return_to_date_mode.place(x=232, y=350)
 
-
-
-def minus_day():
-    global current_date
-    current_date -= dt.timedelta(days=1)
-    update_to_date()
-
-
-def plus_day():
-    global current_date
-    current_date += dt.timedelta(days=1)
-    update_to_date()
-
-
-# Third part: date buttons
-
-plus_day = tk.Button(window, text="⮝", width=4, height=2, command=plus_day)
-plus_day.place(x=210, y=300)
-
-minus_day = tk.Button(window, text="⮟", width=4, height=2, command=minus_day)
-minus_day.place(x=335, y=300)
+    plus_day.place_forget()
+    minus_day.place_forget()
 
 
 jan = tk.Button(window, text="January", command=lambda: update_to_month("01", "January"), width=10)
@@ -122,7 +138,6 @@ may.place(x=25, y=275)
 jun = tk.Button(window, text="June", command=lambda: update_to_month("06", "June"), width=10)
 jun.place(x=25, y=325)
 
-
 jul = tk.Button(window, text="July", command=lambda: update_to_month("07", "July"), width=10)
 jul.place(x=495, y=75)
 aug = tk.Button(window, text="August", command=lambda: update_to_month("08", "August"), width=10)
@@ -135,5 +150,6 @@ nov = tk.Button(window, text="November", command=lambda: update_to_month("11", "
 nov.place(x=495, y=275)
 dec = tk.Button(window, text="December", command=lambda: update_to_month("12", "December"), width=10)
 dec.place(x=495, y=325)
+
 
 window.mainloop()
