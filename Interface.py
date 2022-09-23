@@ -6,7 +6,7 @@ import datetime as dt
 
 # window settings:
 window = tk.Tk()
-window.geometry("600x400")
+window.geometry("600x500")
 window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
 
 
@@ -20,12 +20,10 @@ def format_date(input_date):
 random_date = dt.date(year=2022, month=9, day=22)
 global current_date
 current_date = random_date.today()
-date_label = tk.Label(window, text=format_date(current_date), font=("arial", 20))
-date_label.place(x=255, y=300)
+date_label = tk.Label(window, text=format_date(current_date), font=("arial", 20), pady=20)
+date_label.pack()
 # tomorrow = current_date + dt.timedelta(days=1)
 today = format_date(current_date)
-who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=("arial", 20), pady=10)  # default msg
-who_has_bd.pack()
 
 
 general_BDays = db.load_database_dict()
@@ -40,7 +38,7 @@ for date in general_BDays:  # show only teachers born today
 
 
 teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
-
+teachers_label.pack()
 
 # Second part: date buttons
 
@@ -57,21 +55,10 @@ def update_to_date():
     formatted_date = format_date(current_date)
     date_label.configure(text=formatted_date)
 
-    if current_date == random_date.today():  # return to basic format
-        who_has_bd.configure(text="Teachers who have a birthday today: ")
-
-        for date in general_BDays:
-            if date == today[0:5]:
-                for teacher in general_BDays[date]:
-                    teachers_label_text += teacher + "\n"
-
-    else:  # update the title and list according to the changed date
-        who_has_bd.configure(text="Teachers who have a birthday on " + formatted_date)
-
-        for date in general_BDays:
-            if date == formatted_date[0:5]:
-                for teacher in general_BDays[date]:
-                    teachers_label_text += teacher + "\n"
+    for date in general_BDays:
+        if date == formatted_date[0:5]:
+            for teacher in general_BDays[date]:
+                teachers_label_text += teacher + "\n"
 
     teachers_label.configure(text=teachers_label_text)
 
@@ -89,17 +76,17 @@ def plus_day():  # go one day forward and update
 
 
 plus_day = tk.Button(window, text="⮝", width=4, height=2, command=plus_day)
-plus_day.place(x=210, y=300)
+plus_day.place(x=220, y=20)
 
 minus_day = tk.Button(window, text="⮟", width=4, height=2, command=minus_day)
-minus_day.place(x=335, y=300)
+minus_day.place(x=340, y=20)
 
 
 def mode_change():  # update state to present by date and retrieve plus/minus day buttons (kill button too)
     update_to_date()
     return_to_date_mode.place_forget()
-    plus_day.place(x=210, y=300)
-    minus_day.place(x=335, y=300)
+    plus_day.place(x=220, y=300)
+    minus_day.place(x=340, y=300)
 
 
 return_to_date_mode = tk.Button(window, text="Return to date mode", command=mode_change)
@@ -117,7 +104,7 @@ def update_to_month(month, month_name):
     :param month_name: the name that shall be presented on the main label
     :return: None
     """
-    who_has_bd.configure(text="Teachers who have a birthday in " + month_name)
+    date_label.configure(text=month_name + " Birthdays")
 
     teachers_label_text = ""
     for date in general_BDays:
@@ -125,7 +112,7 @@ def update_to_month(month, month_name):
             for teacher in general_BDays[date]:
                 teachers_label_text += teacher + "\n"
     teachers_label.configure(text=teachers_label_text)
-    return_to_date_mode.place(x=232, y=350)
+    return_to_date_mode.pack()
 
     plus_day.place_forget()
     minus_day.place_forget()
