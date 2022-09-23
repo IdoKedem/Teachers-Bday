@@ -30,5 +30,3 @@ def load_database_dict():
 
         dates_names_dict[date].append(name)
     return dates_names_dict
-
-#ANA GOROBOY
