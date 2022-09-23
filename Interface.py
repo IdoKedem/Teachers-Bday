@@ -1,4 +1,6 @@
-# import Database as Db
+
+import Database as db
+
 import tkinter as tk
 import datetime as dt
 
@@ -25,7 +27,9 @@ today = format_date(current_date)
 who_has_bd = tk.Label(window, text="Teachers who have a birthday today: ", font=("arial", 20), pady=10)  # default msg
 who_has_bd.pack()
 
-general_BDays = {"29/09": ["Ani Ido Kedem"], "26/07": ["Yoav Spiegel"], "25/09": ["nobody", "no one"]}  # until real one
+
+general_BDays = db.load_database_dict()
+
 
 teachers_label_text = ""
 
@@ -34,8 +38,8 @@ for date in general_BDays:  # show only teachers born today
         for teacher in general_BDays[date]:
             teachers_label_text += teacher + "\n"
 
+
 teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
-teachers_label.pack()
 
 
 # Second part: date buttons
