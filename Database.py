@@ -28,9 +28,6 @@ def main():
 
         dates_names_dict[date].append(name)
 
-    for key, value in dates_names_dict.items():
-        print(key, ' : ', value)
-
 
 if __name__ == '__main__':
     main()
