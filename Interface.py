@@ -11,7 +11,7 @@ window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
 
 
 def format_date(input_date):
-    formatted = input_date.strftime("%x")
+    formatted = input_date.strftime("%d/%m")
     return formatted[3:6] + formatted[0:2]
 
 
@@ -45,11 +45,12 @@ teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
 # Second part: date buttons
 
 def update_to_date():
-    '''
+    """
 
     Uses the current date to show the correct messages in every label concerning it
     Activated by plus_day and minus_day buttons
-    '''
+    :return: None
+    """
     global current_date
     teachers_label_text = ""
 
@@ -107,15 +108,16 @@ return_to_date_mode = tk.Button(window, text="Return to date mode", command=mode
 # Third part: month buttons
 
 def update_to_month(month, month_name):
-    '''
+    """
 
     Used by the 12 month buttons
     Updates the teachers list according to the month parameters
     Deletes plus/minus buttons and adds mode change button
     :param month: two digit number to sort dates by
     :param month_name: the name that shall be presented on the main label
-    '''
-    who_has_bd.configure(text="Teachers who have a birthday on " + month_name)
+    :return: None
+    """
+    who_has_bd.configure(text="Teachers who have a birthday in " + month_name)
 
     teachers_label_text = ""
     for date in general_BDays:
