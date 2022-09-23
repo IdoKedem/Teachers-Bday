@@ -89,10 +89,10 @@ def plus_day():
 
 # Third part: buttons and date interface
 
-minus_day = tk.Button(window, text="⮝", width=4, height=2, command=minus_day())
+minus_day = tk.Button(window, text="⮝", width=4, height=2, command=minus_day)
 minus_day.place(x=225, y=300)
 
-plus_day = tk.Button(window, text="⮟", width=4, height=2, command=plus_day())
+plus_day = tk.Button(window, text="⮟", width=4, height=2, command=plus_day)
 plus_day.place(x=350, y=300)
 
 window.mainloop()
