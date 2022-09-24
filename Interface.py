@@ -84,9 +84,9 @@ minus_day.place(x=340, y=20)
 
 def mode_change():  # update state to present by date and retrieve plus/minus day buttons (kill button too)
     update_to_date()
-    return_to_date_mode.place_forget()
-    plus_day.place(x=220, y=300)
-    minus_day.place(x=340, y=300)
+    return_to_date_mode.pack_forget()
+    plus_day.place(x=220, y=20)
+    minus_day.place(x=340, y=20)
 
 
 return_to_date_mode = tk.Button(window, text="Return to date mode", command=mode_change)
