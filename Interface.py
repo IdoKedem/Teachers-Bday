@@ -1,4 +1,3 @@
-
 import Database as db
 
 import tkinter as tk
@@ -42,9 +41,9 @@ teachers_label.pack()
 
 # Second part: date buttons
 
+
 def update_to_date():
     """
-
     Uses the current date to show the correct messages in every label concerning it
     Activated by plus_day and minus_day buttons
     :return: None
@@ -96,11 +95,10 @@ return_to_date_mode = tk.Button(window, text="Return to date mode", command=mode
 
 def update_to_month(month, month_name):
     """
-
     Used by the 12 month buttons
     Updates the teachers list according to the month parameters
     Deletes plus/minus buttons and adds mode change button
-    :param month: two digit number to sort dates by
+    :param month: two-digit number to sort dates by
     :param month_name: the name that shall be presented on the main label
     :return: None
     """
