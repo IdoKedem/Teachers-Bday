@@ -25,14 +25,14 @@ date_label.pack()
 today = format_date(current_date)
 
 
-general_BDays = db.load_database_dict()
+teachers_bdays = db.load_database_dict()
 
 
 teachers_label_text = ""
 
-for date in general_BDays:  # show only teachers born today
+for date in teachers_bdays:  # show only teachers born today
     if date == today:
-        for teacher in general_BDays[date]:
+        for teacher in teachers_bdays[date]:
             teachers_label_text += teacher + "\n"
 
 
@@ -54,9 +54,9 @@ def update_to_date():
     formatted_date = format_date(current_date)
     date_label.configure(text=formatted_date)
 
-    for date in general_BDays:
+    for date in teachers_bdays:
         if date == formatted_date[0:5]:
-            for teacher in general_BDays[date]:
+            for teacher in teachers_bdays[date]:
                 teachers_label_text += teacher + "\n"
 
     teachers_label.configure(text=teachers_label_text)
@@ -105,10 +105,10 @@ def update_to_month(month, month_name):
     date_label.configure(text=month_name + " Birthdays")
 
     teachers_label_text = ""
-    for date in general_BDays:
+    for date in teachers_bdays:
         if date[3:] == month:
-            for teacher in general_BDays[date]:
-                teachers_label_text += teacher + "\n"
+            for teacher in teachers_bdays[date]:
+                teachers_label_text += teacher + " " +date + "\n"
     teachers_label.configure(text=teachers_label_text)
     return_to_date_mode.pack()
 
