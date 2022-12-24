@@ -29,7 +29,7 @@ def load_database_dict():
 
 def add_teacher_to_db(date: str, full_name: str) -> None:
     """
-    writes a teacher's birthdate to the .xlsx file
+    writes a teacher's birthdate to the .xlsx file and to dict
     :param date: a date string containing day and month separated by a '/'
     :param full_name: full name of the teacher which will be added
     :return: None
