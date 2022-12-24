@@ -41,3 +41,4 @@ def add_teacher_to_db(date: str, full_name: str) -> None:
     next_row = ws.max_row + 1
     ws['A' + str(next_row)] = full_name
     ws['B' + str(next_row)] = fix_date(date)
+    wb.save('Teachers-Bday.xlsx')
