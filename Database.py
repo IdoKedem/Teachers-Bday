@@ -41,7 +41,7 @@ def add_teacher_to_db(date: str, full_name: str) -> None:
     ws['B' + str(next_row)] = fix_date(date)
     wb.save('Teachers-Bday.xlsx')
 
-def search_teachers(search_input: str) -> dict[str: list[str]]:
+def search_teachers(search_input: str):
     """
     searches a teacher according to a given string
     :param search_input: name or part of teacher

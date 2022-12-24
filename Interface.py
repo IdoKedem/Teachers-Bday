@@ -24,9 +24,7 @@ date_label.pack()
 # tomorrow = current_date + dt.timedelta(days=1)
 today = format_date(current_date)
 
-
 general_BDays = db.load_database_dict()
-
 
 teachers_label_text = ""
 
@@ -35,9 +33,9 @@ for date in general_BDays:  # show only teachers born today
         for teacher in general_BDays[date]:
             teachers_label_text += teacher + "\n"
 
-
 teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
 teachers_label.pack()
+
 
 # Second part: date buttons
 
@@ -62,7 +60,7 @@ def update_to_date():
     teachers_label.configure(text=teachers_label_text)
 
 
-def minus_day():  # go one day backwards and update
+def minus_day():  # go a day backwards and update
     global current_date
     current_date -= dt.timedelta(days=1)
     update_to_date()
@@ -142,5 +140,87 @@ nov.place(x=495, y=275)
 dec = tk.Button(window, text="December", command=lambda: update_to_month("12", "December"), width=10)
 dec.place(x=495, y=325)
 
+
+def add_screen():
+    add_window = tk.Tk()
+    add_window.geometry("200x200")
+    add_window.title("Add a teacher")
+
+    name_label = tk.Label(add_window, text="Name: ", font=("arial", 8))
+    name_label.place(x=15, y=20)
+    name = tk.Entry(add_window, width=20)
+    name.place(x=55, y=20)
+
+    date_label = tk.Label(add_window, text="Date: ", font=("arial", 8))
+    date_label.place(x=15, y=60)
+    day = tk.Spinbox(add_window, from_=1, to=31, width=6)
+    month = tk.Spinbox(add_window, from_=1, to=12, width=6)
+    day.place(x=55, y=60)
+    month.place(x=130, y=60)
+    slash = tk.Label(add_window, text="/", font=('arial', 12))
+    slash.place(x=113, y=58)
+
+    error_label = tk.Label(add_window, text="", font=("arial", 10), fg="red")
+    error_label.pack(side='bottom', pady=2)
+
+    def submit_and_add():
+        month_days = {
+            "1": '31',
+            "2": '29',
+            "3": '31',
+            "4": '30',
+            "5": '31',
+            "6": '30',
+            "7": '31',
+            "8": '31',
+            "9": '30',
+            "10": '31',
+            "11": '30',
+            "12": '31'
+        }
+        day_val: str = day.get()
+        month_val: str = month.get()
+        name_val: str = name.get()
+
+        error_text = ""
+
+        if not (day_val.isnumeric() and month_val.isnumeric()):
+            error_text += "Date must be numeric\n"
+
+        elif day_val > month_days[month_val]:
+            error_text += "Invalid date\n"
+
+        if name_val == "":
+            error_text += "Name must have value\n"
+
+        elif name_val.isnumeric():
+            error_text += "Name must be a word\n"
+
+        error_label.configure(text=error_text)
+
+        if error_text == "":
+            db.add_teacher_to_db(f"{day_val}/{month_val}", name_val)
+            general_BDays = db.load_database_dict()
+            window.update()
+            add_window.destroy()
+
+
+    submit = tk.Button(add_window, text="Add", command=lambda: submit_and_add())
+    submit.pack(side='bottom', pady=5)
+
+    add_window.mainloop()
+
+
+def search_screen():
+    search_window = tk.Tk()
+    search_window.geometry("100x100")
+    search_window.title("Search for a teacher")
+    search_window.mainloop()
+
+
+search = tk.Button(window, text="Search", command=lambda: search_screen(), width=10, height=5)
+search.place(x=25, y=375)
+add = tk.Button(window, text="Add", command=lambda: add_screen(), width=10, height=5)
+add.place(x=495, y=375)
 
 window.mainloop()
