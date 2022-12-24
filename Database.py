@@ -21,8 +21,7 @@ def load_database_dict():
     dates_names_dict = defaultdict(lambda: [])
     wb = load_workbook('Teachers-Bday.xlsx')
     ws = wb.active
-
-    for row in range(2, ws.max_row):
+    for row in range(2, ws.max_row + 1):
         date = fix_date(ws["B" + str(row)].value)
         name = ws["A" + str(row)].value
 
@@ -42,3 +41,12 @@ def add_teacher_to_db(date: str, full_name: str) -> None:
     ws['A' + str(next_row)] = full_name
     ws['B' + str(next_row)] = fix_date(date)
     wb.save('Teachers-Bday.xlsx')
+
+def search_teachers(search_input: str) -> dict[str: list[str]]:
+    teachers_dict = load_database_dict()
+    search_result_dict = defaultdict(lambda: [])
+    for date, teacher_list in teachers_dict.items():
+        for teacher in teacher_list:
+            if search_input in teacher:
+                search_result_dict[date].append(teacher)
+    return search_result_dict
