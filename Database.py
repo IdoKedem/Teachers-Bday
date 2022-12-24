@@ -5,13 +5,12 @@ from collections import defaultdict
 def fix_date(date: str) -> str:
     """
     changes (or not) and returns a date string to a string in format DD/MM
-    :param date: a date string containing day and month
+    :param date: a date string containing day and month separated by /
     :return: date represented in DD/MM format
     """
     lst = date.split("/")  # a list with two items DD, MM
     lst = [("0" + i if len(i) == 1 else i) for i in lst]  # adds "0" to day or month if needed
     return "/".join(lst)
-
 
 def load_database_dict():
     """
