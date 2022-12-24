@@ -5,7 +5,7 @@ from collections import defaultdict
 def fix_date(date: str) -> str:
     """
     changes (or not) and returns a date string to a string in format DD/MM
-    :param date: a date string containing day and month
+    :param date: a date string containing day and month separated by a '/'
     :return: date represented in DD/MM format
     """
     lst = date.split("/")  # a list with two items DD, MM
@@ -28,3 +28,16 @@ def load_database_dict():
 
         dates_names_dict[date].append(name)
     return dates_names_dict
+
+def add_teacher_to_db(date: str, full_name: str) -> None:
+    """
+    writes a teacher's birthdate to the .xlsx file
+    :param date: a date string containing day and month separated by a '/'
+    :param full_name: full name of the teacher which will be added
+    :return: None
+    """
+    wb = load_workbook('Teachers-Bday.xlsx')
+    ws = wb.active
+    next_row = ws.max_row + 1
+    ws['A' + str(next_row)] = full_name
+    ws['B' + str(next_row)] = fix_date(date)
