@@ -1,9 +1,8 @@
 import Database as db
-
 import tkinter as tk
 import datetime as dt
 
-# window settings:
+
 window = tk.Tk()
 window.geometry("600x500")
 window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
@@ -17,12 +16,11 @@ def format_date(input_date):
 # First part: initialisation of basic screen and variables
 
 random_date = dt.date(year=2022, month=9, day=22)
-global current_date
-current_date = random_date.today()
-date_label = tk.Label(window, text=format_date(current_date), font=("arial", 20), pady=20)
+
+window.current_date = random_date.today()
+date_label = tk.Label(window, text=format_date(window.current_date), font=("arial", 20), pady=20)
 date_label.pack()
-# tomorrow = current_date + dt.timedelta(days=1)
-today = format_date(current_date)
+today = format_date(window.current_date)
 
 window.general_BDays = db.load_database_dict()
 
@@ -46,10 +44,9 @@ def update_to_date():
     Activated by plus_day and minus_day buttons
     :return: None
     """
-    global current_date
     teachers_label_text = ""
 
-    formatted_date = format_date(current_date)
+    formatted_date = format_date(window.current_date)
     date_label.configure(text=formatted_date)
 
     for date in window.general_BDays:
@@ -61,14 +58,12 @@ def update_to_date():
 
 
 def minus_day():  # go a day backwards and update
-    global current_date
-    current_date -= dt.timedelta(days=1)
+    window.current_date -= dt.timedelta(days=1)
     update_to_date()
 
 
 def plus_day():  # go one day forward and update
-    global current_date
-    current_date += dt.timedelta(days=1)
+    window.current_date += dt.timedelta(days=1)
     update_to_date()
 
 
@@ -140,6 +135,8 @@ nov.place(x=495, y=275)
 dec = tk.Button(window, text="December", command=lambda: update_to_month("12", "December"), width=10)
 dec.place(x=495, y=325)
 
+
+# Fourth part: extra functions ADD and SEARCH
 
 def add_screen():
     add_window = tk.Tk()
@@ -213,8 +210,35 @@ def add_screen():
 
 def search_screen():
     search_window = tk.Tk()
-    search_window.geometry("100x100")
+    search_window.geometry("200x200")
     search_window.title("Search for a teacher")
+
+    entry_title = tk.Label(search_window, text="Enter your search: ", font=('arial', 10))
+    entry_title.pack(side='top', pady=2)
+
+    search_bar = tk.Entry(search_window)
+    search_bar.pack(side='top',pady=2)
+
+    results_label = tk.Label(search_window, text="", font=('arial', 8))
+    results_label.pack(side='bottom')
+
+    def submit_and_search():
+        results_dict = db.search_teachers(search_bar.get())
+        results = ""
+        if len(results_dict) == 0:
+            results_label.configure(text="No results")
+        else:
+            for date, names in results_dict.items():
+                for name in names:
+                    results += f"{name} - {date}\n" if results.count("/") < 30 else ""
+            results_label.configure(text=results)
+
+        search_window.geometry(f"200x{100 + results.count('/') * 14}")
+
+
+    submit = tk.Button(search_window, text="Search", command=lambda: submit_and_search())
+    submit.pack(side='top')
+
     search_window.mainloop()
 
 
