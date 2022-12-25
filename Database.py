@@ -41,11 +41,11 @@ def add_teacher_to_db(date: str, full_name: str) -> None:
     ws['B' + str(next_row)] = fix_date(date)
     wb.save('Teachers-Bday.xlsx')
 
-def search_teachers(search_input: str):
+def search_teachers(search_input: str) -> dict[str, list[str]]:
     """
     searches a teacher according to a given string
     :param search_input: name or part of teacher
-    :return: a dict featuring all teachers after search
+    :return: a dict featuring all teachers after search in form of {date: [teacher names]}
     """
     teachers_dict = load_database_dict()
     search_result_dict = defaultdict(lambda: [])
@@ -68,3 +68,14 @@ def is_duplicate_teacher(name: str) -> bool:
             if name == teacher:
                 return True
     return False
+
+def count_teachers_in_dict(teachers_dict: dict[str, list[str]]) -> int:
+    """
+    counts how many teachers are in a dict in form of {date: [teacher names]}
+    :param teachers_dict: the to-be counted dictionary
+    :return: amount of teachers in dict
+    """
+    count = 0
+    for teachers_in_date in teachers_dict.values():
+        count += len(teachers_in_date)
+    return count
