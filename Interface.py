@@ -4,7 +4,7 @@ import datetime as dt
 
 
 window = tk.Tk()
-window.geometry("600x500")
+window.geometry("600x600")
 window.title("Teachers Birthdays by Yoav Spiegel and Ido Kedem")
 
 
@@ -101,7 +101,7 @@ def update_to_month(month, month_name):
     for date in window.general_BDays:
         if date[3:] == month:
             for teacher in window.general_BDays[date]:
-                teachers_label_text += teacher + "\n"
+                teachers_label_text += date + " " + teacher + "\n"
     teachers_label.configure(text=teachers_label_text)
     return_to_date_mode.pack()
 
@@ -193,6 +193,9 @@ def add_screen():
         elif name_val.isnumeric():
             error_text += "Name must be a word\n"
 
+        elif db.is_duplicate_teacher(name_val):
+            error_text += "Teacher already exists\n"
+
         error_label.configure(text=error_text)
 
         if error_text == "":
@@ -235,7 +238,6 @@ def search_screen():
 
         search_window.geometry(f"200x{100 + results.count('/') * 14}")
 
-
     submit = tk.Button(search_window, text="Search", command=lambda: submit_and_search())
     submit.pack(side='top')
 
@@ -243,8 +245,8 @@ def search_screen():
 
 
 search = tk.Button(window, text="Search", command=lambda: search_screen(), width=10, height=5)
-search.place(x=25, y=375)
+search.place(x=25, y=425)
 add = tk.Button(window, text="Add", command=lambda: add_screen(), width=10, height=5)
-add.place(x=495, y=375)
+add.place(x=495, y=425)
 
 window.mainloop()
