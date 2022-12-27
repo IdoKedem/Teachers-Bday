@@ -187,7 +187,7 @@ def add_screen():
         elif day_val > month_days[month_val]:
             error_text += "Invalid date\n"
 
-        if name_val == "":
+        if not name_val:
             error_text += "Name must have value\n"
 
         elif name_val.isnumeric():
@@ -198,12 +198,11 @@ def add_screen():
 
         error_label.configure(text=error_text)
 
-        if error_text == "":
+        if not error_text:
             db.add_teacher_to_db(f"{day_val}/{month_val}", name_val)
             window.general_BDays = db.load_database_dict()
             window.update()
             add_window.destroy()
-
 
     submit = tk.Button(add_window, text="Add", command=submit_and_add)
     submit.pack(side='bottom', pady=5)
@@ -228,7 +227,7 @@ def search_screen():
     def submit_and_search():
         results_dict = db.search_teachers(search_bar.get())
         results = ""
-        if len(results_dict) == 0:
+        if not len(results_dict):
             results_label.configure(text="No results")
         else:
             for date, names in results_dict.items():
@@ -246,6 +245,7 @@ def search_screen():
 
 search = tk.Button(window, text="Search", command=lambda: search_screen(), width=10, height=5)
 search.place(x=25, y=425)
+
 add = tk.Button(window, text="Add", command=lambda: add_screen(), width=10, height=5)
 add.place(x=495, y=425)
 
