@@ -5,7 +5,8 @@ from collections import defaultdict
 def fix_date(date: str) -> str:
     """
     changes (or not) and returns a date string to a string in format DD/MM
-    :param date: a date string containing day and month separated by /
+    :param date: a date string containing day and month separated by a '/'
+
     :return: date represented in DD/MM format
     """
     lst = date.split("/")  # a list with two items DD, MM
@@ -20,10 +21,62 @@ def load_database_dict():
     dates_names_dict = defaultdict(lambda: [])
     wb = load_workbook('Teachers-Bday.xlsx')
     ws = wb.active
-
-    for row in range(2, ws.max_row):
+    for row in range(2, ws.max_row + 1):
         date = fix_date(ws["B" + str(row)].value)
         name = ws["A" + str(row)].value
 
         dates_names_dict[date].append(name)
     return dates_names_dict
+
+def add_teacher_to_db(date: str, full_name: str) -> None:
+    """
+    writes a teacher's birthdate to the .xlsx file and to dict
+    :param date: a date string containing day and month separated by a '/'
+    :param full_name: full name of the teacher which will be added
+    :return: None
+    """
+    wb = load_workbook('Teachers-Bday.xlsx')
+    ws = wb.active
+    next_row = ws.max_row + 1
+    ws['A' + str(next_row)] = full_name
+    ws['B' + str(next_row)] = fix_date(date)
+    wb.save('Teachers-Bday.xlsx')
+
+def search_teachers(search_input: str) -> dict[str, list[str]]:
+    """
+    searches a teacher according to a given string
+    :param search_input: name or part of teacher
+    :return: a dict featuring all teachers after search in form of {date: [teacher names]}
+    """
+    teachers_dict = load_database_dict()
+    search_result_dict = defaultdict(lambda: [])
+
+    for date, teacher_list in teachers_dict.items():
+        for teacher in teacher_list:
+            if search_input in teacher:
+                search_result_dict[date].append(teacher)
+    return search_result_dict
+
+def is_duplicate_teacher(name: str) -> bool:
+    """
+    checks if a teacher already exists in database
+    :param name: teacher's name
+    :return: True if already exists, False otherwise
+    """
+    teachers_dict = load_database_dict()
+    for date, teacher_list in teachers_dict.items():
+        for teacher in teacher_list:
+            if name == teacher:
+                return True
+    return False
+
+def count_teachers_in_dict(teachers_dict: dict[str, list[str]]) -> int:
+    """
+    counts how many teachers are in a dict in form of {date: [teacher names]}
+    :param teachers_dict: the to-be counted dictionary
+    :return: amount of teachers in dict
+    """
+    count = 0
+    for teachers_in_date in teachers_dict.values():
+        count += len(teachers_in_date)
+    return count
