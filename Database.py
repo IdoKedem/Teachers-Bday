@@ -6,6 +6,7 @@ def fix_date(date: str) -> str:
     """
     changes (or not) and returns a date string to a string in format DD/MM
     :param date: a date string containing day and month separated by a '/'
+
     :return: date represented in DD/MM format
     """
     lst = date.split("/")  # a list with two items DD, MM

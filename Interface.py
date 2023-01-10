@@ -29,6 +29,7 @@ teachers_label_text = ""
 for date in window.general_BDays:  # show only teachers born today
     if date == today:
         for teacher in window.general_BDays[date]:
+
             teachers_label_text += teacher + "\n"
 
 teachers_label = tk.Label(window, text=teachers_label_text, font=("arial", 12))
@@ -52,6 +53,7 @@ def update_to_date():
     for date in window.general_BDays:
         if date == formatted_date[0:5]:
             for teacher in window.general_BDays[date]:
+
                 teachers_label_text += teacher + "\n"
 
     teachers_label.configure(text=teachers_label_text)
@@ -102,6 +104,7 @@ def update_to_month(month, month_name):
         if date[3:] == month:
             for teacher in window.general_BDays[date]:
                 teachers_label_text += date + " " + teacher + "\n"
+
     teachers_label.configure(text=teachers_label_text)
     return_to_date_mode.pack()
 
